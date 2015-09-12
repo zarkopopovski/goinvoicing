@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"gopkg.in/mgo.v2/bson"
 	"log"
 	"net/http"
 	"strconv"
@@ -24,21 +23,6 @@ func CreateApiConnection() *ApiConnection {
 func (c *ApiConnection) Index(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Welcome!\n")
 }
-
-/*
-func (c *ApiConnection) TestRoute(w http.ResponseWriter, r *http.Request) {
-
-	products := &Products{
-		Product{Id: bson.NewObjectId(), UserID: bson.NewObjectId(), Name: "Test Product", Description: "Test Description", Price: "1000", Tax: "18", Valid: true},
-		Product{Id: bson.NewObjectId(), UserID: bson.NewObjectId(), Name: "Test Product2", Description: "Test Description", Price: "1000", Tax: "18", Valid: true},
-		Product{Id: bson.NewObjectId(), UserID: bson.NewObjectId(), Name: "Test Product3", Description: "Test Description", Price: "1000", Tax: "18", Valid: true}}
-
-	invoce := &Invoice{Id: bson.NewObjectId(), UserID: bson.NewObjectId(), Products: *products, Description: "Test, Test, Test, Test, Test", Price: "41242412412412", Valid: true}
-
-	c.dbConnection.SaveTestObject(invoce)
-
-}
-*/
 
 func (c *ApiConnection) SignIn(w http.ResponseWriter, r *http.Request) {
 	name := r.FormValue("name")
