@@ -2,9 +2,7 @@ package main
 
 import (
 	"gopkg.in/mgo.v2"
-	"gopkg.in/mgo.v2/bson"
 	"log"
-	"models"
 )
 
 type MongoConnection struct {
@@ -27,4 +25,33 @@ func (mConnection *MongoConnection) createNewDBConnection() (err error) {
 	mConnection.dbSession.SetMode(mgo.Monotonic, true)
 
 	return
+}
+
+func (mConnection *MongoConnection) CreateNewUser(u *User) bool {
+	return u.CreateNewUser(mConnection)
+}
+
+func (mConnection *MongoConnection) LoginWithCredentials(email string, password string) *User {
+	user := &User{}
+	return user.LoginWithCredentials(mConnection, email, password)
+}
+
+func (mConnection *MongoConnection) SaveTestObject(testInvoice *Invoice) bool {
+
+	if mConnection.dbSession == nil {
+		return false
+	}
+
+	session := mConnection.dbSession.Copy()
+	defer session.Close()
+
+	collection := session.DB("goitest").C("invoice")
+	err := collection.Insert(testInvoice)
+	if err != nil {
+		log.Fatal(err)
+		return false
+	}
+
+	return true
+
 }

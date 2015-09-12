@@ -14,6 +14,8 @@ type Routes []Route
 func RoutesMap(api *ApiConnection) Routes {
 	var routes = Routes{
 		Route{"Index", "GET", "/", api.Index},
+		Route{"SignIn", "POST", "/signin", api.SignIn},
+		Route{"Login", "POST", "/login", api.Login},
 	}
 
 	return routes
