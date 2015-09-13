@@ -27,13 +27,26 @@ func (mConnection *MongoConnection) createNewDBConnection() (err error) {
 	return
 }
 
-func (mConnection *MongoConnection) CreateNewUser(u *User) bool {
-	return u.CreateNewUser(mConnection)
+func (mConnection *MongoConnection) CreateNewUser(user *User) bool {
+	return user.CreateNewUser(mConnection)
 }
 
 func (mConnection *MongoConnection) LoginWithCredentials(email string, password string) *User {
 	user := &User{}
 	return user.LoginWithCredentials(mConnection, email, password)
+}
+
+func (mConnection *MongoConnection) CreateNewProduct(product *Product) bool {
+	return product.CreateNewProduct(mConnection)
+}
+
+func (mConnection *MongoConnection) UpdateProduct(product *Product) bool {
+	return product.UpdateProduct(mConnection)
+}
+
+func (mConnection *MongoConnection) DeleteProduct(token string, productID string) bool {
+	product := &Product{}
+	return product.DeleteProduct(mConnection, token, productID)
 }
 
 func (mConnection *MongoConnection) SaveTestObject(testInvoice *Invoice) bool {

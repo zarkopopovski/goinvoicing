@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"gopkg.in/mgo.v2/bson"
 	"log"
 	"net/http"
 	"strconv"
@@ -77,4 +78,92 @@ func (c *ApiConnection) Login(w http.ResponseWriter, r *http.Request) {
 	if err := json.NewEncoder(w).Encode(jsonErr{Code: http.StatusNotFound, Text: "Not Found"}); err != nil {
 		panic(err)
 	}
+}
+
+func (c *ApiConnection) NewProduct(w http.ResponseWriter, r *http.Request) {
+	token := r.FormValue("token")
+	name := r.FormValue("name")
+	description := r.FormValue("description")
+	price := r.FormValue("price")
+	tax := r.FormValue("tax")
+	valid := r.FormValue("valid")
+
+	product := &Product{
+		UserID:       bson.ObjectIdHex(token),
+		Name:         name,
+		Description:  description,
+		Price:        price,
+		Tax:          tax,
+		Valid:        true,
+		Date_Created: time.Now()}
+
+	result := c.dbConnection.CreateNewProduct(product)
+
+	if result {
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusNotFound)
+	if err := json.NewEncoder(w).Encode(jsonErr{Code: http.StatusNotFound, Text: "Not Found"}); err != nil {
+		panic(err)
+	}
+}
+
+func (c *ApiConnection) UpdateProduct(w http.ResponseWriter, r *http.Request) {
+	token := r.FormValue("token")
+	productID := r.FormValue("product_id")
+	name := r.FormValue("name")
+	description := r.FormValue("description")
+	price := r.FormValue("price")
+	tax := r.FormValue("tax")
+
+	validProduct, _ := strconv.ParseBool(r.FormValue("valid"))
+
+	product := &Product{
+		Id:          bson.ObjectIdHex(productID),
+		UserID:      bson.ObjectIdHex(token),
+		Name:        name,
+		Description: description,
+		Price:       price,
+		Tax:         tax,
+		Valid:       validProduct}
+
+	result := c.dbConnection.UpdateProduct(product)
+
+	if result {
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusNotFound)
+	if err := json.NewEncoder(w).Encode(jsonErr{Code: http.StatusNotFound, Text: "Error updating task"}); err != nil {
+		panic(err)
+	}
+}
+
+func (c *ApiConnection) DeleteProduct(w http.ResponseWriter, r *http.Request) {
+	token := r.FormValue("token")
+	productID := r.FormValue("product_id")
+
+	result := c.dbConnection.DeleteProduct(token, productID)
+
+	if result {
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusOK)
+	}
+
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusNotFound)
+	if err := json.NewEncoder(w).Encode(jsonErr{Code: http.StatusNotFound, Text: "Error removing task"}); err != nil {
+		panic(err)
+	}
+}
+
+func (c *ApiConnection) ListProducts(w http.ResponseWriter, r *http.Request) {
+
 }
