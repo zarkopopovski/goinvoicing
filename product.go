@@ -74,4 +74,23 @@ func (product *Product) DeleteProduct(mConnection *MongoConnection, token string
 	return true
 }
 
+func (product *Product) ListProducts(mConnection *MongoConnection, token string) []Product {
+	if mConnection.dbSession == nil {
+		return nil
+	}
+
+	session := mConnection.dbSession.Copy()
+	defer session.Close()
+
+	var products Products
+
+	c := session.DB("goinvoice").C("productdata")
+	err := c.Find(bson.M{"user_id": bson.ObjectIdHex(token)}).All(&products)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return products
+}
+
 type Products []Product

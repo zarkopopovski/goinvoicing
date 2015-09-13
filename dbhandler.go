@@ -49,6 +49,11 @@ func (mConnection *MongoConnection) DeleteProduct(token string, productID string
 	return product.DeleteProduct(mConnection, token, productID)
 }
 
+func (mConnection *MongoConnection) ListAllProducts(token string) []Product {
+	product := &Product{}
+	return product.ListProducts(mConnection, token)
+}
+
 func (mConnection *MongoConnection) SaveTestObject(testInvoice *Invoice) bool {
 
 	if mConnection.dbSession == nil {

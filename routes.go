@@ -19,7 +19,7 @@ func RoutesMap(api *ApiConnection) Routes {
 		Route{"NewProduct", "POST", "/newproduct", api.NewProduct},
 		Route{"UpdateProduct", "POST", "/updateproduct", api.UpdateProduct},
 		Route{"DeleteProduct", "POST", "/deleteproduct", api.DeleteProduct},
-		Route{"ListProducts", "POST", "/newproduct", api.ListProducts},
+		Route{"ListProducts", "POST", "/listproducts", api.ListProducts},
 	}
 
 	return routes
