@@ -93,4 +93,23 @@ func (product *Product) ListProducts(mConnection *MongoConnection, token string)
 	return products
 }
 
+func (product *Product) FindProduct(mConnection *MongoConnection, token string, productID string) *Product {
+	if mConnection.dbSession == nil {
+		return nil
+	}
+
+	session := mConnection.dbSession.Copy()
+	defer session.Close()
+
+	var productData *Product
+
+	c := session.DB("goinvoice").C("productdata")
+	err := c.Find(bson.M{"_id": bson.ObjectIdHex(productID), "$and": []interface{}{bson.M{"user_id": bson.ObjectIdHex(token)}}}).One(&productData)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return productData
+}
+
 type Products []Product
