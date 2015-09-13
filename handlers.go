@@ -86,7 +86,8 @@ func (c *ApiConnection) NewProduct(w http.ResponseWriter, r *http.Request) {
 	description := r.FormValue("description")
 	price := r.FormValue("price")
 	tax := r.FormValue("tax")
-	valid := r.FormValue("valid")
+
+	validProduct, _ := strconv.ParseBool(r.FormValue("valid"))
 
 	product := &Product{
 		UserID:       bson.ObjectIdHex(token),
@@ -94,7 +95,7 @@ func (c *ApiConnection) NewProduct(w http.ResponseWriter, r *http.Request) {
 		Description:  description,
 		Price:        price,
 		Tax:          tax,
-		Valid:        true,
+		Valid:        validProduct,
 		Date_Created: time.Now()}
 
 	result := c.dbConnection.CreateNewProduct(product)
@@ -141,7 +142,7 @@ func (c *ApiConnection) UpdateProduct(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusNotFound)
-	if err := json.NewEncoder(w).Encode(jsonErr{Code: http.StatusNotFound, Text: "Error updating task"}); err != nil {
+	if err := json.NewEncoder(w).Encode(jsonErr{Code: http.StatusNotFound, Text: "Error updating product"}); err != nil {
 		panic(err)
 	}
 }
@@ -155,11 +156,12 @@ func (c *ApiConnection) DeleteProduct(w http.ResponseWriter, r *http.Request) {
 	if result {
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		w.WriteHeader(http.StatusOK)
+		return
 	}
 
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusNotFound)
-	if err := json.NewEncoder(w).Encode(jsonErr{Code: http.StatusNotFound, Text: "Error removing task"}); err != nil {
+	if err := json.NewEncoder(w).Encode(jsonErr{Code: http.StatusNotFound, Text: "Error removing product"}); err != nil {
 		panic(err)
 	}
 }
