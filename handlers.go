@@ -187,3 +187,19 @@ func (c *ApiConnection) ListProducts(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 }
+
+func (c *ApiConnection) NewCustomer(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func (c *ApiConnection) UpdateCustomer(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func (c *ApiConnection) DeleteCustomer(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func (c *ApiConnection) ListCustomers(w http.ResponseWriter, r *http.Request) {
+
+}
