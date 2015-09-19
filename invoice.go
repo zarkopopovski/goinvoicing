@@ -16,4 +16,30 @@ type Invoice struct {
 	Date_Created time.Time     `json:"date_created"`
 }
 
+func (invoice *Invoice) CreateNewInvoice(mConnection *MongoConnection) bool {
+
+	return false
+
+}
+
+func (invoice *Invoice) UpdateExistingInvoice(mConnection *MongoConnection) bool {
+
+	return false
+
+}
+
+func (invoice *Invoice) DeleteExistingInvoice(mConnection *MongoConnection) bool {
+
+	return false
+
+}
+
+func (invoice *Invoice) ListExistingInvoices(mConnection *MongoConnection) []Invoice {
+
+	invoices := Invoices{}
+
+	return invoices
+
+}
+
 type Invoices []Invoice

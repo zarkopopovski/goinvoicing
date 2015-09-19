@@ -310,3 +310,19 @@ func (c *ApiConnection) ListCustomers(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 }
+
+func (c *ApiConnection) NewInvoice(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func (c *ApiConnection) UpdateInvoice(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func (c *ApiConnection) DeleteInvoice(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func (c *ApiConnection) ListInvoices(w http.ResponseWriter, r *http.Request) {
+
+}
