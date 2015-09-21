@@ -109,4 +109,23 @@ func (customer *Customer) ListCustomers(mConnection *MongoConnection, token stri
 	return customers
 }
 
+func (customer *Customer) FindCustomerByID(mConnection *MongoConnection, token string, customerID string) *Customer {
+	if mConnection.dbSession == nil {
+		return nil
+	}
+
+	session := mConnection.dbSession.Copy()
+	defer session.Close()
+
+	var customerData *Customer
+
+	c := session.DB("goinvoice").C("customerdata")
+	err := c.Find(bson.M{"_id": bson.ObjectIdHex(customerID), "$and": []interface{}{bson.M{"user_id": bson.ObjectIdHex(token)}}}).One(&customerData)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return customerData
+}
+
 type Customers []Customer

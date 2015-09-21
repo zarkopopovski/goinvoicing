@@ -54,6 +54,11 @@ func (mConnection *MongoConnection) ListAllProducts(token string) []Product {
 	return product.ListProducts(mConnection, token)
 }
 
+func (mConnection *MongoConnection) FindExistingProducts(token string, productsIDs []string) []Product {
+	product := &Product{}
+	return product.FindProductsByIDs(mConnection, token, productsIDs)
+}
+
 func (mConnection *MongoConnection) CreateNewCustomer(customer *Customer) bool {
 	return customer.CreateNewCustomer(mConnection)
 }
@@ -70,6 +75,15 @@ func (mConnection *MongoConnection) DeleteCustomer(token string, customerID stri
 func (mConnection *MongoConnection) ListAllCustomers(token string) []Customer {
 	customer := &Customer{}
 	return customer.ListCustomers(mConnection, token)
+}
+
+func (mConnection *MongoConnection) FindExistingCustomers(token string, customerID string) *Customer {
+	customer := &Customer{}
+	return customer.FindCustomerByID(mConnection, token, customerID)
+}
+
+func (mConnection *MongoConnection) CreateNewInvoice(invoice *Invoice) bool {
+	return invoice.CreateInvoice(mConnection)
 }
 
 func (mConnection *MongoConnection) SaveTestObject(testInvoice *Invoice) bool {

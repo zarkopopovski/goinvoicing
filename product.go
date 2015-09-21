@@ -112,4 +112,33 @@ func (product *Product) FindProduct(mConnection *MongoConnection, token string, 
 	return productData
 }
 
+func (product *Product) FindProductsByIDs(mConnection *MongoConnection, token string, productsIDs []string) []Product {
+	if mConnection.dbSession == nil {
+		return nil
+	}
+
+	session := mConnection.dbSession.Copy()
+	defer session.Close()
+
+	objectsArray := make([]bson.ObjectId, len(productsIDs))
+
+	for i := 0; i < len(productsIDs); i++ {
+		objectsArray[i] = bson.ObjectIdHex(productsIDs[i])
+	}
+
+	var products Products
+
+	c := session.DB("goinvoice").C("productdata")
+	err := c.Find(
+		bson.M{"user_id": bson.ObjectIdHex(token),
+			"$and": []interface{}{
+				bson.M{"_id": []interface{}{
+					bson.M{"$in": objectsArray}}}}}).All(&products)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return products
+}
+
 type Products []Product
