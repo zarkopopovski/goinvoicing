@@ -90,11 +90,6 @@ func (c *ApiConnection) NewProduct(w http.ResponseWriter, r *http.Request) {
 	validProduct, _ := strconv.ParseBool(r.FormValue("valid"))
 
 	var d Product
-	
-    if err := json.NewDecoder(r.Body).Decode(&d); err != nil {
-    	log.Println(d)   
-    }
-
 
 	product := &Product{
 		UserID:       bson.ObjectIdHex(token),
@@ -326,16 +321,10 @@ func (c *ApiConnection) NewInvoice(w http.ResponseWriter, r *http.Request) {
 
 	validInvoice, _ := strconv.ParseBool(r.FormValue("valid"))
 
-	products := []string {"5601084ea3dca2f03e9fd5c1", "560110fba3dca2f03e9fd5c4"}
+	products := []string{"5601084ea3dca2f03e9fd5c1", "560110fba3dca2f03e9fd5c4"}
 
 	var customer = c.dbConnection.FindExistingCustomers(token, customerID)
 	var productsData = c.dbConnection.FindExistingProducts(token, products)
-
-	err := r.ParseForm()
-
-	if err == nil {
-
-	}
 
 	invoice := &Invoice{
 		UserID:      bson.ObjectIdHex(token),
