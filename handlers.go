@@ -89,8 +89,6 @@ func (c *ApiConnection) NewProduct(w http.ResponseWriter, r *http.Request) {
 
 	validProduct, _ := strconv.ParseBool(r.FormValue("valid"))
 
-	var d Product
-
 	product := &Product{
 		UserID:       bson.ObjectIdHex(token),
 		Name:         name,
