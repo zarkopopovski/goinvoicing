@@ -8,18 +8,18 @@ import (
 )
 
 type Customer struct {
-	Id          bson.ObjectId `bson:"_id,omitempty" json:"id"`
-	UserID      bson.ObjectId `bson:"user_id" json:"user_id"`
-	Name        string        `json:"name"`
-	Email       string        `json:"email"`
-	Address     string        `json:"address"`
-	Address2    string        `json:"address2"`
-	City        string        `json:"city"`
-	Zip         string        `json:"zip"`
-	Country     string        `json:"country"`
-	Telephone   string        `json:"telephone"`
-	Telephone2  string        `json:"telephone2"`
-	DateCreated time.Time     `json:"date_created"`
+	Id          bson.ObjectId `json:"id" bson:"_id,omitempty"`
+	UserID      bson.ObjectId `json:"user_id" bson:"user_id"`
+	Name        string        `json:"name" bson:"name"`
+	Email       string        `json:"email" bson:"email"`
+	Address     string        `json:"address" bson:"address"`
+	Address2    string        `json:"address2" bson:"address2"`
+	City        string        `json:"city" bson:"city"`
+	Zip         string        `json:"zip" bson:"zip"`
+	Country     string        `json:"country" bson:"country"`
+	Telephone   string        `json:"telephone" bson:"telephone"`
+	Telephone2  string        `json:"telephone2" bson:"telephone2"`
+	DateCreated time.Time     `json:"date_created" bson:"date_created"`
 }
 
 func (customer *Customer) valid() bool {

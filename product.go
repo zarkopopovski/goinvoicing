@@ -7,14 +7,14 @@ import (
 )
 
 type Product struct {
-	Id           bson.ObjectId `bson:"_id,omitempty" json:"id"`
-	UserID       bson.ObjectId `bson:"user_id" json:"user_id"`
-	Name         string        `json:"name"`
-	Description  string        `json:"description"`
-	Price        string        `json:"price"`
-	Tax          string        `json:"tax"`
-	Valid        bool          `json:"valid"`
-	Date_Created time.Time     `json:"date_created"`
+	Id           bson.ObjectId `json:"id" bson:"_id,omitempty"`
+	UserID       bson.ObjectId `json:"user_id" bson:"user_id"`
+	Name         string        `json:"name" bson:"name"`
+	Description  string        `json:"description" bson:"description"`
+	Price        string        `json:"price" bson:"price"`
+	Tax          string        `json:"tax" bson:"tax"`
+	Valid        bool          `json:"valid" bson:"valid"`
+	Date_Created time.Time     `json:"date_created" bson:"date_created"`
 }
 
 func (product *Product) CreateNewProduct(mConnection *MongoConnection) bool {

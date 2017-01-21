@@ -6,14 +6,14 @@ import (
 )
 
 type Invoice struct {
-	Id          bson.ObjectId `bson:"_id,omitempty" json:"id"`
-	UserID      bson.ObjectId `bson:"user_id" json:"user_id"`
-	Customer    Customer      `json:"customer"`
-	Products    Products      `json:"products"`
-	Description string        `json:"description"`
-	Price       string        `json:"price"`
-	Valid       bool          `json:"valid"`
-	DateCreated time.Time     `json:"date_created"`
+	Id          bson.ObjectId `json:"id" bson:"_id,omitempty"`
+	UserID      bson.ObjectId `json:"user_id" bson:"user_id"`
+	Customer    Customer      `json:"customer" bson:"customer"`
+	Products    Products      `json:"products" bson:"products"`
+	Description string        `json:"description" bson:"description"`
+	Price       string        `json:"price" bson:"price"`
+	Valid       bool          `json:"valid" bson:"valid"`
+	DateCreated time.Time     `json:"date_created" bson:"date_created"`
 }
 
 func (invoice *Invoice) CreateInvoice(mConnection *MongoConnection) bool {

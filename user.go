@@ -8,13 +8,13 @@ import (
 )
 
 type User struct {
-	Id           bson.ObjectId `bson:"_id,omitempty" json:"id"`
-	Name         string        `json:"user_name"`
-	Email        string        `json:"email"`
-	Ages         int           `json:"ages"`
-	Sex          string        `json:"sex"`
-	Password     string        `json:"password"`
-	Date_Created time.Time     `json:"date_created"`
+	Id           bson.ObjectId `json:"id" bson:"_id,omitempty"`
+	Name         string        `json:"user_name" bson:"user_name"`
+	Email        string        `json:"email" bson:"email"`
+	Ages         int           `json:"ages" bson:"ages"`
+	Sex          string        `json:"sex" bson:"sex"`
+	Password     string        `json:"password" bson:"password"`
+	Date_Created time.Time     `json:"date_created" bson:"date_created"`
 }
 
 func (user *User) valid() bool {
